@@ -54,7 +54,7 @@ class BerandaPage extends StatelessWidget {
                   SizedBox(height: 8),
                   Text('NIM: 714240053', style: TextStyle(fontSize: 16)),
                   SizedBox(height: 8),
-                  Text('Kelas: D4 TI 3B', style: TextStyle(fontSize: 16)),
+                  Text('Kelas: 3B', style: TextStyle(fontSize: 16)),
                   SizedBox(height: 20),
                   Text(
                     'Lingkungan pengembangan siap digunakan',
