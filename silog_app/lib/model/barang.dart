@@ -8,10 +8,10 @@ class Barang {
   Barang({
     required this.kode,
     required this.nama,
-    required double hargaSatuan,
+    required this._hargaSatuan,
     this.satuan = 'pcs',
     this.beratKg = 0,
-  }) : _hargaSatuan = hargaSatuan;
+  });
 
   /// Konstruktor bernama untuk data hasil pemindaian kode barang.
   Barang.dariPemindaian(String baris)

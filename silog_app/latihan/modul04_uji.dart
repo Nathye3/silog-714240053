@@ -1,7 +1,7 @@
-import '../lib/model/barang.dart';
-import '../lib/model/gudang.dart';
-import '../lib/model/pengiriman.dart';
-import '../lib/model/pelanggan.dart';
+import 'package:silog_app/model/barang.dart';
+import 'package:silog_app/model/gudang.dart';
+import 'package:silog_app/model/pengiriman.dart';
+import 'package:silog_app/model/pelanggan.dart';
 
 void main() {
   final pelanggan = Pelanggan(

@@ -19,8 +19,8 @@ class Pengiriman {
     required this.pelanggan,
     required this.jumlah,
     required this.tanggalKirim,
-    String status = 'Draft',
-  }) : _status = status;
+    this._status = 'Draft',
+  });
 
   /// Konstruktor bernama untuk pengiriman yang baru didaftarkan hari ini.
   Pengiriman.baru({
