@@ -15,7 +15,7 @@ class Pelanggan {
     if (alamat.length <= 40) {
       return alamat;
     }
-    return '$alamat.substring(0, 37)}...';
+    return '${alamat.substring(0, 37)}...';
   }
 
   @override
