@@ -27,6 +27,7 @@ class KartuPengiriman extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final teks = Theme.of(context).textTheme;
+    final warnaStatus = _warnaStatus(context);
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -38,8 +39,8 @@ class KartuPengiriman extends StatelessWidget {
           child: Row(
             children: [
               CircleAvatar(
-                backgroundColor: _warnaStatus(context).withOpacity(0.15),
-                child: Icon(Icons.inventory_2, color: _warnaStatus(context)),
+                backgroundColor: warnaStatus.withValues(alpha: 0.15),
+                child: Icon(Icons.inventory_2, color: warnaStatus),
               ),
 
               const SizedBox(width: 12),
@@ -70,14 +71,12 @@ class KartuPengiriman extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: _warnaStatus(context).withOpacity(0.12),
+                  color: warnaStatus.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   pengiriman.status,
-                  style: teks.labelSmall?.copyWith(
-                    color: _warnaStatus(context),
-                  ),
+                  style: teks.labelSmall?.copyWith(color: warnaStatus),
                 ),
               ),
             ],
