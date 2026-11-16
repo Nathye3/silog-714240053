@@ -14,6 +14,7 @@ class StokRepository {
 
   final _store = intMapStoreFactory.store('stok');
 
+  // DATABASE
   Future<Database> get _database async {
     if (_db != null) return _db!;
 
@@ -31,38 +32,55 @@ class StokRepository {
   // CREATE
   Future<int> simpan(Stok stok) async {
     final db = await _database;
-    return _store.add(db, stok.toMap());
+    return await _store.add(db, stok.toMap());
   }
 
-  // READ - semua data
-  Future<List<Stok>> ambilSemua({String? kodeGudang}) async {
+  // READ ALL + SEARCH
+  Future<List<Stok>> ambilSemua({String? kodeGudang, String? kataKunci}) async {
     final db = await _database;
 
+    final filters = <Filter>[];
+
+    if (kodeGudang != null && kodeGudang.isNotEmpty) {
+      filters.add(Filter.equals('kodeGudang', kodeGudang));
+    }
+
+    if (kataKunci != null && kataKunci.trim().isNotEmpty) {
+      final pola = RegExp(
+        '.*${RegExp.escape(kataKunci.trim())}.*',
+        caseSensitive: false,
+      );
+
+      filters.add(Filter.matchesRegExp('namaBarang', pola));
+    }
+
     final finder = Finder(
-      filter: kodeGudang == null
-          ? null
-          : Filter.equals('kodeGudang', kodeGudang),
+      filter: filters.isEmpty ? null : Filter.and(filters),
       sortOrders: [SortOrder('namaBarang')],
     );
 
-    final rekaman = await _store.find(db, finder: finder);
+    final records = await _store.find(db, finder: finder);
 
-    return rekaman.map((r) => Stok.fromMap(r.key, r.value)).toList();
+    return records.map((record) {
+      return Stok.fromMap(record.key, record.value);
+    }).toList();
   }
 
-  // READ - satu data
+  // READ ONE
   Future<Stok?> ambilSatu(int id) async {
     final db = await _database;
 
-    final nilai = await _store.record(id).get(db);
+    final data = await _store.record(id).get(db);
 
-    return nilai == null ? null : Stok.fromMap(id, nilai);
+    if (data == null) return null;
+
+    return Stok.fromMap(id, data);
   }
 
   // UPDATE
   Future<void> perbarui(Stok stok) async {
     if (stok.id == null) {
-      throw ArgumentError('Data tanpa id tidak dapat diperbarui');
+      throw ArgumentError('ID stok tidak boleh kosong');
     }
 
     final db = await _database;
@@ -77,17 +95,25 @@ class StokRepository {
     await _store.record(id).delete(db);
   }
 
-  // Menghitung total stok gudang
+  // TOTAL STOK GUDANG
   Future<int> totalStokGudang(String kodeGudang) async {
     final daftar = await ambilSemua(kodeGudang: kodeGudang);
 
     return daftar.fold<int>(0, (total, stok) => total + stok.jumlah);
   }
 
-  // Menghapus seluruh data stok
+  // DELETE ALL
   Future<void> kosongkan() async {
     final db = await _database;
 
     await _store.delete(db);
+  }
+
+  // CLOSE DATABASE
+  Future<void> tutupDatabase() async {
+    if (_db != null) {
+      await _db!.close();
+      _db = null;
+    }
   }
 }

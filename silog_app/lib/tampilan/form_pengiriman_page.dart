@@ -160,7 +160,6 @@ class _FormPengirimanPageState extends State<FormPengirimanPage> {
       tanggalKirim: _tanggalKirim,
     );
 
-    // Mengubah status dari Draft menjadi Menunggu Pickup.
     pengiriman.ubahStatus('Menunggu Pickup');
 
     Navigator.pop(context, pengiriman);
@@ -248,8 +247,9 @@ class _FormPengirimanPageState extends State<FormPengirimanPage> {
 
             const SizedBox(height: 12),
 
+            // Dropdown pelanggan
             DropdownButtonFormField<Pelanggan>(
-              value: _pelanggan,
+              initialValue: _pelanggan,
               decoration: const InputDecoration(
                 labelText: 'Pelanggan',
                 border: OutlineInputBorder(),
@@ -271,8 +271,9 @@ class _FormPengirimanPageState extends State<FormPengirimanPage> {
 
             const SizedBox(height: 12),
 
+            // Dropdown kota tujuan
             DropdownButtonFormField<String>(
-              value: _kotaTujuan,
+              initialValue: _kotaTujuan,
               decoration: const InputDecoration(
                 labelText: 'Kota Tujuan',
                 border: OutlineInputBorder(),

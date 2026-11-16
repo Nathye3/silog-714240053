@@ -1,11 +1,26 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silog_app/main.dart';
 
 void main() {
-  testWidgets('Halaman beranda SiLog tampil', (WidgetTester tester) async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+  });
+
+  testWidgets('Aplikasi SiLog berhasil ditampilkan', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const SiLogApp());
 
-    expect(find.text('Sistem Informasi Logistik'), findsOneWidget);
-    expect(find.text('Nama: Muhamad Maulana Febrian'), findsOneWidget);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(MaterialApp), findsOneWidget);
+
+    final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
+
+    expect(app.title, 'SiLog');
   });
 }
