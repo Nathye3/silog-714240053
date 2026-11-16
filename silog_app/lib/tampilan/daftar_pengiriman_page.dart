@@ -5,6 +5,7 @@ import '../model/pengiriman.dart';
 import '../widget/kartu_pengiriman.dart';
 import 'detail_pengiriman_page.dart';
 import 'form_pengiriman_page.dart';
+import 'stok_page.dart';
 
 class DaftarPengirimanPage extends StatefulWidget {
   const DaftarPengirimanPage({super.key});
@@ -76,12 +77,29 @@ class _DaftarPengirimanPageState extends State<DaftarPengirimanPage> {
     }
   }
 
+  // Navigasi ke halaman stok gudang
+  void _bukaStok() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const StokPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     const opsi = ['Semua', 'Menunggu Pickup', 'Dalam Perjalanan', 'Diterima'];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Daftar Pengiriman')),
+      appBar: AppBar(
+        title: const Text('Daftar Pengiriman'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.inventory_2_outlined),
+            tooltip: 'Stok Gudang',
+            onPressed: _bukaStok,
+          ),
+        ],
+      ),
 
       body: Column(
         children: [
