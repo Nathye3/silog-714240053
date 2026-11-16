@@ -14,6 +14,7 @@ class StokRepository {
 
   final _store = intMapStoreFactory.store('stok');
 
+  // Membuka database lokal
   Future<Database> get _database async {
     if (_db != null) return _db!;
 
@@ -31,17 +32,31 @@ class StokRepository {
   // CREATE
   Future<int> simpan(Stok stok) async {
     final db = await _database;
+
     return _store.add(db, stok.toMap());
   }
 
-  // READ - semua data
-  Future<List<Stok>> ambilSemua({String? kodeGudang}) async {
+  // READ - seluruh data, filter gudang dan pencarian nama
+  Future<List<Stok>> ambilSemua({String? kodeGudang, String? pencarian}) async {
     final db = await _database;
 
+    final filters = <Filter>[];
+
+    if (kodeGudang != null) {
+      filters.add(Filter.equals('kodeGudang', kodeGudang));
+    }
+
+    if (pencarian != null && pencarian.trim().isNotEmpty) {
+      filters.add(
+        Filter.matchesRegExp(
+          'namaBarang',
+          RegExp(RegExp.escape(pencarian.trim()), caseSensitive: false),
+        ),
+      );
+    }
+
     final finder = Finder(
-      filter: kodeGudang == null
-          ? null
-          : Filter.equals('kodeGudang', kodeGudang),
+      filter: filters.isEmpty ? null : Filter.and(filters),
       sortOrders: [SortOrder('namaBarang')],
     );
 
