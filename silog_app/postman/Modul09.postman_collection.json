@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "SiLog - Praktikum Modul 09",
+    "description": "Skenario GET, POST, PUT, DELETE, dan URL tidak ditemukan untuk layanan JSONPlaceholder.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://jsonplaceholder.typicode.com"
+    },
+    {
+      "key": "orderId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET - Daftar order",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/posts?_limit=10"
+      }
+    },
+    {
+      "name": "POST - Buat order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json; charset=UTF-8"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": 7,\n  \"title\": \"Order pengiriman Bandung - Surabaya\",\n  \"body\": \"3 koli, berat total 42 kg, layanan reguler\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/posts"
+      }
+    },
+    {
+      "name": "PUT - Ubah order",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json; charset=UTF-8"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": 7,\n  \"title\": \"Order diperbarui\",\n  \"body\": \"Keterangan terbaru\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/posts/{{orderId}}"
+      }
+    },
+    {
+      "name": "DELETE - Hapus order",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/posts/{{orderId}}"
+      }
+    },
+    {
+      "name": "GET - URL salah (404)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/alamat-salah/posts?_limit=10"
+      }
+    }
+  ]
+}
